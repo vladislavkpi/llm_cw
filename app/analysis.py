@@ -7,6 +7,8 @@ company_name (str): Назва компанії.
 Повертає:
 str: Структурований фінансовий аналіз у текстовому форматі.
 """
+from openai import OpenAI
+import os
 
 def generate_analysis(block_name, value, company_name):
     prompt = (
