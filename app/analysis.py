@@ -10,6 +10,14 @@ str: Структурований фінансовий аналіз у текс�
 from openai import OpenAI
 import os
 
+# пропишемо ключі, якщо працюємо через Колаб
+client = OpenAI(
+  api_key=userdata.get('api_key')
+)
+nixtla_client = NixtlaClient(
+    api_key = userdata.get('TIMEGPT_API_KEY')
+)
+
 def generate_analysis(block_name, value, company_name):
     prompt = (
         f"Provide a structured financial analysis of {block_name} for {company_name} with a value of {value}. "
