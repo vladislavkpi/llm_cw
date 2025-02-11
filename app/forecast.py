@@ -3,6 +3,14 @@ import yfinance as yf
 import pandas as pd
 import requests
 
+# пропишемо ключі, якщо працюємо через Колаб
+nixtla_client = NixtlaClient(
+    api_key = userdata.get('TIMEGPT_API_KEY')
+)
+nixtla_client = NixtlaClient(
+    api_key = TIMEGPT_API_KEY
+)
+
 # Функція для отримання історичних даних та підготовки часових рядів
 
 def get_time_series_data(ticker):
