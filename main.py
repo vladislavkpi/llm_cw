@@ -11,6 +11,9 @@ import uvicorn
 import requests
 import json
 #from google.colab import userdata #треба у випадку роботи з колабом
+from app.data_fetch import get_time_series_data
+from app.forecasting import predict_stock_price
+from app.analysis import generate_analysis
 
 # ініціюємо АПІ
 app = FastAPI()
@@ -21,14 +24,6 @@ class StockRequest(BaseModel):
 @app.get("/")
 def home():
     return {"message": "Welcome to the Financial Analysis API"}
-
-# пропишемо ключі, якщо працюємо через Колаб
-client = OpenAI(
-  api_key=userdata.get('api_key')
-)
-nixtla_client = NixtlaClient(
-    api_key = userdata.get('TIMEGPT_API_KEY')
-)
 
 # Основна функція для генерації відповіді по різних фінансових параметрах та прогнозу
 @app.post("/analyze/")
