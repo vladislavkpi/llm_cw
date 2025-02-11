@@ -11,8 +11,8 @@ import uvicorn
 import requests
 import json
 #from google.colab import userdata #треба у випадку роботи з колабом
-from app.data_fetch import get_time_series_data
-from app.forecasting import predict_stock_price
+from app.forecast import predict_stock_price
+from app.forecast import get_time_series_data
 from app.analysis import generate_analysis
 
 # ініціюємо АПІ
@@ -77,12 +77,17 @@ def analyze_stock(request: StockRequest):
         }
     }
 
+### Запускаємо сервер FastAPI у фоновому режимі ###
+nest_asyncio.apply()
+uvicorn.run(app, host="127.0.0.1", port=8000)
 
-# пропишемо ключі, якщо працюємо через Python
-client = OpenAI(
-  api_key=OPENAI_API_KEY
-)
-nixtla_client = NixtlaClient(
-    api_key = TIMEGPT_API_KEY
-)
+### для Colab: ###
+nest_asyncio.apply()
+from pyngrok import ngrok
+ngrok.set_auth_token(userdata.get('ngrok'))
 
+public_url = ngrok.connect(8000).public_url
+print(f"Public URL: {public_url}")
+
+# Запускаємо Uvicorn
+uvicorn.run(app, host="127.0.0.1", port=8000)
